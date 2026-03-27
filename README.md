@@ -1,4 +1,4 @@
-![](./mario.gif)
+![](./assets/mario.gif)
 
 ## Hello my people! 🙋
 
@@ -6,4 +6,4 @@ I'm a software engineer experienced with development of high-availability distri
 
 ## Statistics
 
-![](./profile-3d-contrib/profile-south-season-animate.svg)
+![](./profile-3d-contrib/profile-night-view.svg)
