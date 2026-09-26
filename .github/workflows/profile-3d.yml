@@ -14,10 +14,22 @@ jobs:
     name: generate-github-profile-3d-contrib
     steps:
       - uses: actions/checkout@v5
-      - uses: yoshi389111/github-profile-3d-contrib@latest
+      - id: generate_3d_contrib_first_attempt
+        uses: yoshi389111/github-profile-3d-contrib@latest
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
+      - id: generate_3d_contrib_retry
+        if: ${{ steps.generate_3d_contrib_first_attempt.outcome == 'failure' }}
+        uses: yoshi389111/github-profile-3d-contrib@latest
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+      - name: Fail if profile generation failed after retry
+        if: ${{ steps.generate_3d_contrib_first_attempt.outcome == 'failure' && steps.generate_3d_contrib_retry.outcome == 'failure' }}
+        run: exit 1
       - name: Commit & Push
         run: |
           git config user.name github-actions
